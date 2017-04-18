@@ -44,6 +44,7 @@
             android:name=".RS232.ServicioRs"
             android:enabled="true"
             android:exported="true" />
+        <service android:name="mahecha.nicolas.menugrafico1.MiServiceIBinder"/>
 
     </application>
 

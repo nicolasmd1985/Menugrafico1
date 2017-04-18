@@ -10,9 +10,47 @@
     tools:showIn="@layout/app_bar_main">
 
     <FrameLayout
+        android:id="@+id/contenedor"
+        android:layout_width="match_parent"
+        android:layout_height="420dp"></FrameLayout>
+
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/contenedor">
-    </FrameLayout>
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/tx_ser"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="TextView" />
+
+        <Button
+            android:id="@+id/bt_stop_service_ibinder"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="st" />
+
+        <Button
+            android:id="@+id/bt_start_service_ibinder"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="start" />
+
+        <Button
+            android:id="@+id/bt_get_result"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+
+            android:layout_weight="1"
+            android:text="ser" />
+
+
+
+
+    </LinearLayout>
 
 </FrameLayout>

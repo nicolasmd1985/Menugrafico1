@@ -1,7 +1,11 @@
 package mahecha.nicolas.menugrafico1;
 
+import android.content.ComponentName;
+import android.content.Context;
 import android.content.Intent;
+import android.content.ServiceConnection;
 import android.os.Bundle;
+import android.os.IBinder;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.FragmentTransaction;
@@ -14,11 +18,16 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Button;
+import android.widget.TextView;
 
 import mahecha.nicolas.menugrafico1.RS232.ServicioRs;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
+
+
+    private MiServiceIBinder mServiceIBinder;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,6 +67,45 @@ public class MainActivity extends AppCompatActivity
                 ft.replace(R.id.contenedor,map, "tag");
         ft.addToBackStack("tag");
         ft.commit();
+
+
+
+
+
+        // CONFIGURACION SERVICE IBINDER
+
+        final TextView texto = (TextView) findViewById(R.id.tx_ser);
+
+        Button bt_Start_Service_IB = (Button) findViewById(R.id.bt_start_service_ibinder);
+        bt_Start_Service_IB.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, MiServiceIBinder.class);
+                bindService(intent, sConnectionIB, Context.BIND_AUTO_CREATE);
+            }
+        });
+
+        Button bt_Resultado_IB = (Button) findViewById(R.id.bt_get_result);
+        bt_Resultado_IB.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                if (mServiceIBinder != null) {
+                    String resultado = String.valueOf(mServiceIBinder.getResultado());
+                    texto.setText("Su resuldato es: " + resultado);
+                }
+            }
+        });
+
+        Button bt_Stop_Service_IB = (Button) findViewById(R.id.bt_stop_service_ibinder);
+        bt_Stop_Service_IB.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                if (mServiceIBinder != null) {
+                    mServiceIBinder.stopForeground(true);
+                    unbindService(sConnectionIB);
+                    mServiceIBinder = null;
+                }
+            }
+        });
+
+
 
 
 
@@ -124,15 +172,13 @@ public class MainActivity extends AppCompatActivity
             ft.commit();
 
         } else if (id == R.id.nav_slideshow) {
-            Intent Rs232 = new Intent(getApplicationContext(),ServicioRs.class);
-            getApplicationContext().startService(Rs232);
+//            Intent Rs232 = new Intent(getApplicationContext(),ServicioRs.class);
+//            getApplicationContext().startService(Rs232);
+
+            Intent intent = new Intent(this, ServicioRs.class);
+            bindService(intent, sConnectionIB, Context.BIND_AUTO_CREATE);
 
         } else if (id == R.id.nav_manage) {
-
-        } else if (id == R.id.nav_share) {
-
-        } else if (id == R.id.nav_send) {
-
 
         }
 
@@ -140,4 +186,17 @@ public class MainActivity extends AppCompatActivity
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
+
+    // CONFIGURACION INTERFACE SERVICECONNECTION IBINDER
+    private ServiceConnection sConnectionIB = new ServiceConnection() {
+        @Override
+        public void onServiceConnected(ComponentName name, IBinder service) {
+            MiServiceIBinder.MiBinderIBinder binder = (MiServiceIBinder.MiBinderIBinder) service;
+            mServiceIBinder = binder.getService();
+        }
+        @Override
+        public void onServiceDisconnected(ComponentName name) {}
+    };
+
+
 }

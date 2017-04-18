@@ -1,16 +1,22 @@
 package mahecha.nicolas.menugrafico1;
 
 
+import android.content.ComponentName;
+import android.content.Context;
 import android.content.Intent;
+import android.content.ServiceConnection;
 import android.os.Bundle;
+import android.os.IBinder;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 
 
 import mahecha.nicolas.menugrafico1.RS232.ServicioRs;
+import mahecha.nicolas.menugrafico1.MiServiceIBinder.MiBinderIBinder;
 
 
 /**
@@ -19,7 +25,7 @@ import mahecha.nicolas.menugrafico1.RS232.ServicioRs;
 public class Prueba extends Fragment {
 
 
-
+    private MiServiceIBinder mServiceIBinder;
 
     TextView test;
     public Prueba() {
@@ -34,16 +40,43 @@ public class Prueba extends Fragment {
         View v = inflater.inflate(R.layout.fragment_prueba, container, false);
         test = (TextView)v.findViewById(R.id.testo) ;
 
-        testin();
+       // testin();
+
+        // CONFIGURACION SERVICE IBINDER
+
+        test.setText("entra");
+
+
+
+
+
+            Button bt_Resultado_IB = (Button)v.findViewById(R.id.bt_get_result);
+            bt_Resultado_IB.setOnClickListener(new View.OnClickListener() {
+                public void onClick(View v) {
+                    if (mServiceIBinder != null) {
+                        String resultado = String.valueOf(mServiceIBinder.getResultado());
+                        test.setText("Su resuldato es: " + resultado);
+                    }
+                }
+            });
+
+
+
+
+
         return v;
     }
 
     private void testin() {
 
-        test.setText("probando");
+       // test.setText("probando");
+
 
 
     }
+
+
+
 
 
 }
