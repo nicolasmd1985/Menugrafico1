@@ -15,6 +15,9 @@ import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.RelativeLayout;
 
+import java.io.IOException;
+import java.io.InputStream;
+
 
 /**
  * A simple {@link Fragment} subclass.
@@ -34,6 +37,9 @@ public class Mapa1 extends Fragment {
         View v= inflater.inflate(R.layout.fragment_blank, container, false);
         RelativeLayout relativeLayout = (RelativeLayout)v.findViewById(R.id.rect);
         relativeLayout.addView(new ZoomView(getActivity()));
+
+
+
                 return v;
     }
 
@@ -225,6 +231,8 @@ public class Mapa1 extends Fragment {
             ////****PONER IMAGEN////////
             mImage.setBounds(0, 0, (int)displayWidth, (int)displayHeight);
             mImage.draw(canvas);
+
+
 
 
         /* The rest of your canvas-drawing code */

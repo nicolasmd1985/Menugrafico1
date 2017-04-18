@@ -1,5 +1,6 @@
 package mahecha.nicolas.menugrafico1;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -13,6 +14,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+
+import mahecha.nicolas.menugrafico1.RS232.ServicioRs;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -46,6 +49,7 @@ public class MainActivity extends AppCompatActivity
 
         ///////////////*************FRAGMENTOS***************////////////////
 
+
         Mapa1 mapa1 = new Mapa1();
         getSupportFragmentManager().beginTransaction().add(R.id.contenedor, mapa1);
 
@@ -54,6 +58,8 @@ public class MainActivity extends AppCompatActivity
                 ft.replace(R.id.contenedor,map, "tag");
         ft.addToBackStack("tag");
         ft.commit();
+
+
 
     }
 
@@ -94,18 +100,39 @@ public class MainActivity extends AppCompatActivity
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
         int id = item.getItemId();
+        Mapa1 frag1 = new Mapa1();
+        getSupportFragmentManager().beginTransaction().add(R.id.contenedor, frag1);
 
         if (id == R.id.nav_camera) {
-            // Handle the camera action
+            Mapa1 fragm = new Mapa1();
+//            Bundle parametro = new Bundle();
+//            parametro.putString("id_us",idusuar);
+//            fragm.setArguments(parametro);
+            FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+            ft.replace(R.id.contenedor, fragm, "tag");
+            ft.addToBackStack("tag");
+            ft.commit();
+
         } else if (id == R.id.nav_gallery) {
+            Prueba fragm = new Prueba();
+//            Bundle parametro = new Bundle();
+//            parametro.putString("id_us",idusuar);
+//            fragm.setArguments(parametro);
+            FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+            ft.replace(R.id.contenedor, fragm, "tag");
+            ft.addToBackStack("tag");
+            ft.commit();
 
         } else if (id == R.id.nav_slideshow) {
+            Intent Rs232 = new Intent(getApplicationContext(),ServicioRs.class);
+            getApplicationContext().startService(Rs232);
 
         } else if (id == R.id.nav_manage) {
 
         } else if (id == R.id.nav_share) {
 
         } else if (id == R.id.nav_send) {
+
 
         }
 
